@@ -172,14 +172,14 @@ def price():
         data=response.text,
     )
 
-
-@app.route('/history', methods=['GET'])
-def history():
+@app.route('/history/', defaults={'offset': 0, 'limit': 5})
+@app.route('/history/<int:offset>/<int:limit>', methods=['GET'])
+def history(offset,limit):
     """Returns the last 5 trips made by the logged in user."""
     url = config.get('base_uber_url') + 'history'
     params = {
-        'offset': 0,
-        'limit': 5,
+        'offset': offset,
+        'limit': limit,
     }
 
     response = app.requests_session.get(
@@ -200,7 +200,7 @@ def history():
 @app.route('/me', methods=['GET'])
 def me():
     """Returns user information including name, picture and email."""
-    url = config.get('base_uber_url') + 'me'
+    url = config.get('base_uber_url') + 'me?limit=10'
     response = app.requests_session.get(
         url,
         headers=generate_ride_headers(session.get('access_token')),
