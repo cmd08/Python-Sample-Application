@@ -215,5 +215,9 @@ def me():
     )
 
 
+@app.route('/chris')
+def chris():
+    return render_template('results.html', endpoint="chris", data=os.environ.get('UBER_CLIENT_ID')
+
 if __name__ == '__main__':
     app.run(port=7000)
